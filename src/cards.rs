@@ -1,7 +1,6 @@
 use fileio::Term;
 use jisho;
-use jisho::{SearchResult, Japanese, Sense};
-use std::iter::FilterMap;
+use jisho::{Japanese};
 use std::fmt;
 /// Character used to separate each field for a card in the card fileio
 ///

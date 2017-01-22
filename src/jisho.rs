@@ -1,5 +1,4 @@
 
-use reqwest::{Response};
 use reqwest;
 use serde_json::Value;
 use std::collections::BTreeMap;

@@ -20,7 +20,7 @@ cargo install --git https://github.com/Zengor/list_to_anki.git
 3. `cargo build`
 
 ## Usage
-* NOTE: * These are far from the best cards. You may want to do some editing as you run into them.
+* NOTE: These are far from the best cards. You may want to do some editing as you run into them.
 
 Pass the program the path to a list of words (one word per line), for example:
 ```
@@ -30,7 +30,7 @@ And it'll generate `words_generated_deck` which can be imported to Anki.
 
 It's assumed you have [Japanese Support](https://ankiweb.net/shared/info/3918629684) 
 installed to your Anki. The card layout is a simple "front" and "back", where front 
-has the format <kanji>[reading]. If you wish for the reading to show as furigana,
+has the format `<kanji>[reading]`. If you wish for the reading to show as furigana,
 edit your card file css to use `{{furigana:Front}}`. And if you wish NOT to show the 
 reading, use `{{kanji:Front}}`
 _Note:_ `Front` will be whatever you have set as the corresponding to `field 1` when importing

@@ -1,0 +1,13 @@
+[package]
+name = "list_to_anki"
+version = "0.1.0"
+authors = ["Zengor <ialmeida@edu.unifor.br>"]
+
+[dependencies]
+clap = "*"
+reqwest = "*"
+serde = "*"
+serde_derive = "*"
+serde_json = "*"
+rayon = "*"
+

@@ -1,6 +1,6 @@
 [package]
 name = "list_to_anki"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Zengor <ialmeida@edu.unifor.br>"]
 
 [dependencies]

@@ -1,5 +1,6 @@
 use std::io::{BufReader, BufRead, BufWriter, Write};
-use std::fs::File;
+use std::fs::{File, OpenOptions};
+use std::path::Path;
 
 /// An enum representing a single term read from the file
 ///
@@ -40,7 +41,19 @@ pub fn read(f_name: &str) -> Vec<Term> {
     out
 }
 
-pub fn write(f_name: &str, f_contents: &str) {
-    let f = File::create(f_name).expect("Failed creating file");
+pub fn write(f_name: &str, f_contents: &str, append: bool) {
+    let mut options = OpenOptions::new();
+    if !Path::new(f_name).exists() {
+        options.create(true);
+    }
+    let f = options.write(true).append(append).open(f_name).expect("Failed creating/opening file");
+
+    
+    // let f = OpenOptions::new()
+    //     .create(true)
+    //     .append(append)
+    //     .open(f_name)
+    //     .expect("Failed creating/opening file");
+    // let f = File::create(f_name).expect("Failed creating file");
     BufWriter::new(f).write_all(f_contents.as_bytes()).expect("Failed Writing");
 }

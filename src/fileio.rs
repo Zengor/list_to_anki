@@ -9,7 +9,7 @@ pub enum Term {
     /// Term is to be searched in the dictionary
     Search(String),
     /// Term is not to be searched and added as-is to card file
-    Pass(String, String),        
+    Pass(String, String),
 }
 
 fn determine_term_type(s: &str) -> Option<Term> {
@@ -27,17 +27,17 @@ fn determine_term_type(s: &str) -> Option<Term> {
 }
 
 
-pub fn read(f_name: &str) -> Vec<Term>{
+pub fn read(f_name: &str) -> Vec<Term> {
     let f = File::open(f_name).expect("Failed opening file");
     let lines = BufReader::new(&f).lines();
     let mut out: Vec<Term> = Vec::new();
     for line in lines {
         match determine_term_type(&line.unwrap()) {
             Some(t) => out.push(t),
-            None => ()
+            None => (),
         }
     }
-    out                      
+    out
 }
 
 pub fn write(f_name: &str, f_contents: &str) {

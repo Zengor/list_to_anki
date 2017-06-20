@@ -7,7 +7,7 @@ const JISHO_API_URL: &'static str = "http://jisho.org/api/v1/search/words?keywor
 #[derive(Deserialize)]
 struct APIResponse {
     meta: BTreeMap<String, Value>,
-    data: Vec<SearchResult>
+    data: Vec<SearchResult>,
 }
 
 #[derive(Deserialize)]
@@ -16,36 +16,38 @@ pub struct SearchResult {
     tags: Vec<String>,
     pub japanese: Vec<Japanese>,
     pub senses: Vec<Sense>,
-    attribution:  BTreeMap<String, Value>,
+    attribution: BTreeMap<String, Value>,
 }
-  
+
 #[derive(Deserialize)]
 pub struct Japanese {
     pub word: Option<String>,
-    pub reading: Option<String>,        
+    pub reading: Option<String>,
 }
 
 #[derive(Deserialize)]
 pub struct Sense {
-    pub english_definitions: Vec<String>,
+    // This didn't use to need to be an Option but the API's fucked
+    // see `search()` on `cards.rs` for explanation
+    pub english_definitions: Option<Vec<String>>,
     parts_of_speech: Vec<String>,
     links: Vec<Link>,
     tags: Vec<String>,
     restrictions: Vec<String>,
-    source: Vec<String>,
-    info: Vec<String>        
+    source: Vec<BTreeMap<String, Value>>,
+    info: Vec<String>,
 }
 
 #[derive(Deserialize)]
 pub struct Link {
     text: String,
-    url: String
+    url: String,
 }
 
 pub fn make_request(search_term: &str) -> Vec<SearchResult> {
     let response: APIResponse = reqwest::get(&format!("{}{}", JISHO_API_URL, search_term))
-                 .expect("Failed accessing Jisho API")
-                 .json()
-                 .expect("Failed converting API as JSON");
+        .expect(&format!("{}: Failed accessing Jisho API", search_term))
+        .json()
+        .expect(&format!("{}: Failed converting API as JSON", search_term));
     response.data
 }

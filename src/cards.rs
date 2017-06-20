@@ -1,6 +1,6 @@
 use fileio::Term;
 use jisho;
-use jisho::{Japanese};
+use jisho::Japanese;
 use std::fmt;
 /// Character used to separate each field for a card in the card fileio
 ///
@@ -11,7 +11,7 @@ const SEPARATOR: char = '\t';
 /// Currently only a single front and back fields are supported
 pub struct Card {
     front: String,
-    back: String,        
+    back: String,
 }
 
 impl Card {
@@ -39,20 +39,18 @@ pub fn generate_card(t: &Term) -> Option<Card> {
             println!("searching {}", s);
             search(s)
         }
-        Term::Pass(ref f, ref b) => {
-            Some(Card::new(f, b))
-        }  
+        Term::Pass(ref f, ref b) => Some(Card::new(f, b)),  
     }
 }
 
 /// Searches dictionary and returns appropriate card if successful
-fn search (search_term: &str) -> Option<Card> {
+fn search(search_term: &str) -> Option<Card> {
     // Get Jisho API response
     let results = jisho::make_request(search_term);
 
     if results.is_empty() {
         return None;
-    }    
+    }
     // Here we have to make judgements about which result to use
     // I'll just trust that jisho's top result will be good for now
     // (which it usually is, assuming your search is also reasonable)
@@ -60,7 +58,7 @@ fn search (search_term: &str) -> Option<Card> {
     // Now we have to construct a front of the form <kanji>[<reading>]
     // noting that either one of them might not exist, and that there may be
     // multiple pairs
-    let mut front = String::new();    
+    let mut front = String::new();
     for japanese_word in top.japanese.iter() {
         match *japanese_word {
             Japanese { word: Some(ref w), reading: Some(ref r) } => {
@@ -69,7 +67,7 @@ fn search (search_term: &str) -> Option<Card> {
             // When there is either just the word or the reading, add it
             // without furigana markup
             Japanese { word: Some(ref s), reading: None } |
-            Japanese { word: None       , reading: Some(ref s) } => {
+            Japanese { word: None, reading: Some(ref s) } => {
                 // Note, we still need to add two spaces after the entry
                 // so format is still necessary
                 front.push_str(&format!("{}  ", s));
@@ -87,9 +85,21 @@ fn search (search_term: &str) -> Option<Card> {
     // 2. def; def;
     let mut back = String::new();
     for (num, sense) in top.senses.iter().enumerate() {
-        back.push_str(&format!("{}. ", num+1));
-        let defs = sense.english_definitions.join("; ");
-        back.push_str(&format!("{}<br>", defs));
+        back.push_str(&format!("{}. ", num + 1));
+        match sense.english_definitions {
+            Some(ref eng_defs) => {
+                back.push_str(&format!("{}<br>",
+                                       eng_defs.join("; ")));
+            }
+            None => {
+                // Normally, it shouldn't be possible for english_definitions
+                // to be empty (and therefore None here). Now there's a bug in the               
+                // API where every word has a bunch of 'empty' senses where there
+                // is no `english_definitions` field and all the other fields
+                // (parts_of_speech, etc) are empty as well.
+            }
+        }
+        
     }
     Some(Card::new(&front, &back))
 }

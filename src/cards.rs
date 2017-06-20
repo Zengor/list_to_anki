@@ -39,7 +39,7 @@ pub fn generate_card(t: &Term) -> Option<Card> {
             println!("searching {}", s);
             search(s)
         }
-        Term::Pass(ref f, ref b) => Some(Card::new(f, b)),  
+        Term::Pass(ref f, ref b) => Some(Card::new(f, b)),
     }
 }
 
@@ -85,11 +85,9 @@ fn search(search_term: &str) -> Option<Card> {
     // 2. def; def;
     let mut back = String::new();
     for (num, sense) in top.senses.iter().enumerate() {
-        back.push_str(&format!("{}. ", num + 1));
         match sense.english_definitions {
-            Some(ref eng_defs) => {
-                back.push_str(&format!("{}<br>",
-                                       eng_defs.join("; ")));
+            Some(ref eng_defs) => {                
+                back.push_str(&format!("{}. {}<br>", num + 1, eng_defs.join("; ")));
             }
             None => {
                 // Normally, it shouldn't be possible for english_definitions

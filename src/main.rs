@@ -28,6 +28,10 @@ fn main() {
              .long("output")
              .value_name("FILE_NAME")
              .help("Specifices the output deck file name. Default is [input]_generated_deck"))
+        .arg(Arg::with_name("append")
+             .short("a")
+             .long("append")
+             .help("Appends to output file instead of replacing it"))
         .get_matches();
     
     let f = arg_matches.value_of("file").expect("File path not recognized");
@@ -45,5 +49,5 @@ fn main() {
     for card in cards.iter() {
         out_file.push_str(&format!("{}\n", card));
     }
-    fileio::write(&out, &out_file);
+    fileio::write(&out, &out_file, arg_matches.is_present("append"));
 }

@@ -46,7 +46,10 @@ pub fn write(f_name: &str, f_contents: &str, append: bool) {
     if !Path::new(f_name).exists() {
         options.create(true);
     }
-    let f = options.write(true).append(append).open(f_name).expect("Failed creating/opening file");
+    let f = options.write(true)
+        .append(append)
+        .truncate(!append)
+        .open(f_name).expect("Failed creating/opening file");
 
     
     // let f = OpenOptions::new()

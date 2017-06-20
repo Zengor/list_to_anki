@@ -31,8 +31,8 @@ pub struct Sense {
     // see `search()` on `cards.rs` for explanation
     pub english_definitions: Option<Vec<String>>,
     parts_of_speech: Vec<String>,
-    links: Vec<Link>,
-    tags: Vec<String>,
+    links: Vec<Link>, //skip this while the api is acting up
+    tags: Vec<Value>,
     restrictions: Vec<String>,
     source: Vec<BTreeMap<String, Value>>,
     info: Vec<String>,

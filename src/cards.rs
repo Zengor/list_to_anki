@@ -74,7 +74,7 @@ fn search(search_term: &str) -> Option<Card> {
             }
             // This shouldn't be possible
             Japanese { word: None, reading: None } => {
-                unreachable!("Japanese word had neitehr word nor reading field?!");
+                unreachable!("Japanese word had neither word nor reading field?!");
             }
         }
     }

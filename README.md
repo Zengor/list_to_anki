@@ -8,8 +8,6 @@ to beginners.
 
 ## Installation
 
-Requires Rust nightly.
-
 ```
 cargo install --git https://github.com/Zengor/list_to_anki.git
 ```

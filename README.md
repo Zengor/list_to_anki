@@ -26,7 +26,11 @@ Pass the program the path to a list of words (one word per line), for example:
 ```
 list_to_anki words
 ```
-And it'll generate `words_generated_deck` which can be imported to Anki.
+And it'll generate `words_generated_deck` which can be imported to Anki. You can use the `-o` argument to set the output filename and the `-a` flag to append to the file instead of truncating.
+
+```
+list_to_anki words -o my_deck.txt -a
+```
 
 It's assumed you have [Japanese Support](https://ankiweb.net/shared/info/3918629684) 
 installed to your Anki. The card layout is a simple "front" and "back", where front 

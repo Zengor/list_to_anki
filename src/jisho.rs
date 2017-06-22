@@ -27,11 +27,9 @@ pub struct Japanese {
 
 #[derive(Deserialize)]
 pub struct Sense {
-    // This didn't use to need to be an Option but the API's fucked
-    // see `search()` on `cards.rs` for explanation
-    pub english_definitions: Option<Vec<String>>,
+    pub english_definitions: Vec<String>,
     parts_of_speech: Vec<String>,
-    links: Vec<Link>, //skip this while the api is acting up
+    links: Vec<Link>, 
     tags: Vec<Value>,
     restrictions: Vec<String>,
     source: Vec<BTreeMap<String, Value>>,

@@ -85,19 +85,9 @@ fn search(search_term: &str) -> Option<Card> {
     // 2. def; def;
     let mut back = String::new();
     for (num, sense) in top.senses.iter().enumerate() {
-        match sense.english_definitions {
-            Some(ref eng_defs) => {                
-                back.push_str(&format!("{}. {}<br>", num + 1, eng_defs.join("; ")));
-            }
-            None => {
-                // Normally, it shouldn't be possible for english_definitions
-                // to be empty (and therefore None here). Now there's a bug in the               
-                // API where every word has a bunch of 'empty' senses where there
-                // is no `english_definitions` field and all the other fields
-                // (parts_of_speech, etc) are empty as well.
-            }
-        }
-        
+        back.push_str(&format!("{}. ", num+1));
+        let defs = sense.english_definitions.join("; ");
+        back.push_str(&format!("{}<br>", defs));
     }
     Some(Card::new(&front, &back))
 }

@@ -27,7 +27,6 @@ fn determine_term_type(s: &str) -> Option<Term> {
     }
 }
 
-
 pub fn read(f_name: &str) -> Vec<Term> {
     let f = File::open(f_name).expect("Failed opening file");
     let lines = BufReader::new(&f).lines();

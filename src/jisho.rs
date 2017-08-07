@@ -1,4 +1,4 @@
-
+#![allow(dead_code)]
 use reqwest;
 use serde_json::Value;
 use std::collections::BTreeMap;
@@ -49,3 +49,4 @@ pub fn make_request(search_term: &str) -> Vec<SearchResult> {
         .expect(&format!("{}: Failed converting API as JSON", search_term));
     response.data
 }
+

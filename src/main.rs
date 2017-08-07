@@ -32,6 +32,9 @@ fn main() {
              .short("a")
              .long("append")
              .help("Appends to output file instead of replacing it"))
+        .arg(Arg::with_name("single-threaded")
+             .long("singlet")
+             .help("Runs the search in a single thread. Should be really slow"))
         .get_matches();
     
     let f = arg_matches.value_of("file").expect("File path not recognized");
@@ -42,8 +45,14 @@ fn main() {
              
     // Read file
     let lines: Vec<Term> = fileio::read(f);
-    /// / Generate cards
-    let cards: Vec<Card> = lines.par_iter().filter_map(|t| cards::generate_card(t)).collect();
+    // Generate cards
+    let cards: Vec<Card> = {
+        if arg_matches.is_present("single-threaded") {
+            lines.iter().filter_map(|t| cards::generate_card(t)).collect()
+        } else {
+            lines.par_iter().filter_map(|t| cards::generate_card(t)).collect()
+        }
+    };
     // Output file
     let mut out_file = String::new();
     for card in cards.iter() {

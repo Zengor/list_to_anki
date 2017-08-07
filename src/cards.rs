@@ -2,13 +2,14 @@ use fileio::Term;
 use jisho;
 use jisho::Japanese;
 use std::fmt;
+
 /// Character used to separate each field for a card in the card fileio
 ///
 /// `\t` is being used to allow semi-colons to be used in cards
 const SEPARATOR: char = '\t';
 
-/// Represents an Anki flashcard
-/// Currently only a single front and back fields are supported
+/// Represents an Anki flashcard.
+/// Currently only a single front and back fields are supported.
 pub struct Card {
     front: String,
     back: String,
@@ -32,7 +33,8 @@ impl fmt::Display for Card {
 
 /// Generates a card based on a search term.
 /// If it's not possible to generate the card, returns `None` (or will, once
-/// I implement that. Right now, failures panic)
+/// I implement that. Right now, failing to get a response from the API or
+/// parsing JSON will simply panic)
 pub fn generate_card(t: &Term) -> Option<Card> {
     match *t {
         Term::Search(ref s) => {

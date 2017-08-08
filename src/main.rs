@@ -7,8 +7,8 @@ extern crate serde_derive;
 extern crate serde_json;
 extern crate rayon;
 mod fileio;
-pub mod cards;
-pub mod jisho;
+mod cards;
+mod jisho;
 
 use clap::{Arg, App};
 use fileio::Term;

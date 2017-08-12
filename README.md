@@ -41,3 +41,8 @@ To actually import to Anki, open your desktop application and go to `File > Impo
 select the generated deck. You'll be prompted to several settings, leave 
 `Allow HTML in fields` *ON* then choose the other options based on which deck you want to
 import to with what card style.
+
+## TODO
+- Support J-J dictionary
+- Support local dictionaries
+- Make installable release builds that do not require cargo

@@ -1,5 +1,5 @@
-use std::io::{BufReader, BufRead, BufWriter, Write};
 use std::fs::{File, OpenOptions};
+use std::io::{BufRead, BufReader, BufWriter, Write};
 use std::path::Path;
 
 /// An enum representing a single term read from the file
@@ -45,17 +45,20 @@ pub fn write(f_name: &str, f_contents: &str, append: bool) {
     if !Path::new(f_name).exists() {
         options.create(true);
     }
-    let f = options.write(true)
+    let f = options
+        .write(true)
         .append(append)
         .truncate(!append)
-        .open(f_name).expect("Failed creating/opening file");
+        .open(f_name)
+        .expect("Failed creating/opening file");
 
-    
     // let f = OpenOptions::new()
     //     .create(true)
     //     .append(append)
     //     .open(f_name)
     //     .expect("Failed creating/opening file");
     // let f = File::create(f_name).expect("Failed creating file");
-    BufWriter::new(f).write_all(f_contents.as_bytes()).expect("Failed Writing");
+    BufWriter::new(f)
+        .write_all(f_contents.as_bytes())
+        .expect("Failed Writing");
 }

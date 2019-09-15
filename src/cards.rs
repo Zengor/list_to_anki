@@ -62,19 +62,31 @@ fn search(search_term: &str) -> Option<Card> {
     let mut front = String::new();
     for japanese_word in top.japanese.iter() {
         match *japanese_word {
-            Japanese { word: Some(ref w), reading: Some(ref r) } => {
+            Japanese {
+                word: Some(ref w),
+                reading: Some(ref r),
+            } => {
                 front.push_str(&format!("{}[{}]  ", w, r));
             }
             // When there is either just the word or the reading, add it
             // without furigana markup
-            Japanese { word: Some(ref s), reading: None } |
-            Japanese { word: None, reading: Some(ref s) } => {
+            Japanese {
+                word: Some(ref s),
+                reading: None,
+            }
+            | Japanese {
+                word: None,
+                reading: Some(ref s),
+            } => {
                 // Note, we still need to add two spaces after the entry
                 // so format is still necessary
                 front.push_str(&format!("{}  ", s));
             }
             // This shouldn't be possible
-            Japanese { word: None, reading: None } => {
+            Japanese {
+                word: None,
+                reading: None,
+            } => {
                 unreachable!("Japanese word had neither word nor reading field?!");
             }
         }
@@ -86,7 +98,7 @@ fn search(search_term: &str) -> Option<Card> {
     // 2. def; def;
     let mut back = String::new();
     for (num, sense) in top.senses.iter().enumerate() {
-        back.push_str(&format!("{}. ", num+1));
+        back.push_str(&format!("{}. ", num + 1));
         let defs = sense.english_definitions.join("; ");
         back.push_str(&format!("{}<br>", defs));
     }

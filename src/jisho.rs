@@ -1,7 +1,8 @@
 #![allow(dead_code)]
-use reqwest;
+use serde::Deserialize;
 use serde_json::Value;
 use std::collections::BTreeMap;
+
 const JISHO_API_URL: &'static str = "http://jisho.org/api/v1/search/words?keyword=";
 
 #[derive(Deserialize)]
@@ -29,7 +30,7 @@ pub struct Japanese {
 pub struct Sense {
     pub english_definitions: Vec<String>,
     parts_of_speech: Vec<String>,
-    links: Vec<Link>, 
+    links: Vec<Link>,
     tags: Vec<Value>,
     restrictions: Vec<String>,
     source: Vec<BTreeMap<String, Value>>,
@@ -49,4 +50,3 @@ pub fn make_request(search_term: &str) -> Vec<SearchResult> {
         .expect(&format!("{}: Failed converting API as JSON", search_term));
     response.data
 }
-

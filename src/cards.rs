@@ -1,6 +1,5 @@
-use fileio::Term;
-use jisho;
-use jisho::Japanese;
+use crate::fileio::Term;
+use crate::jisho::{self, Japanese};
 use std::fmt;
 
 /// Character used to separate each field for a card in the card fileio
@@ -56,7 +55,7 @@ fn search(search_term: &str) -> Option<Card> {
     // Here we have to make judgements about which result to use
     // I'll just trust that jisho's top result will be good for now
     // (which it usually is, assuming your search is also reasonable)
-    let ref top = results[0];
+    let top = &results[0];
     // Now we have to construct a front of the form <kanji>[<reading>]
     // noting that either one of them might not exist, and that there may be
     // multiple pairs

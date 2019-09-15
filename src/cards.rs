@@ -47,7 +47,13 @@ pub fn generate_card(t: &Term) -> Option<Card> {
 /// Searches dictionary and returns appropriate card if successful
 fn search(search_term: &str) -> Option<Card> {
     // Get Jisho API response
-    let results = jisho::make_request(search_term);
+    let results = match jisho::make_request(search_term) {
+        Ok(results) => results,
+        Err(e) => {
+            handle_error(search_term, e);
+            return None;
+        }
+    };
 
     if results.is_empty() {
         return None;
@@ -103,4 +109,12 @@ fn search(search_term: &str) -> Option<Card> {
         back.push_str(&format!("{}<br>", defs));
     }
     Some(Card::new(&front, &back))
+}
+
+fn handle_error(search_term: &str, e: reqwest::Error) {
+    if e.is_serialization() {
+        eprintln!("{}: Failed converting API as JSON {}", search_term, e.get_ref().unwrap());
+    } else {
+        eprintln!("{}: Failed accessing JishoAPI", search_term);
+    }
 }

@@ -43,10 +43,10 @@ pub struct Link {
     url: String,
 }
 
-pub fn make_request(search_term: &str) -> Vec<SearchResult> {
-    let response: APIResponse = reqwest::get(&format!("{}{}", JISHO_API_URL, search_term))
-        .expect(&format!("{}: Failed accessing Jisho API", search_term))
-        .json()
-        .expect(&format!("{}: Failed converting API as JSON", search_term));
-    response.data
+pub fn make_request(search_term: &str) -> reqwest::Result<Vec<SearchResult>> {
+    let response: APIResponse = reqwest::get(&format!("{}{}", JISHO_API_URL, search_term))?
+        //        .expect(&format!("{}: Failed accessing Jisho API", search_term))
+        .json()?;
+    //        .expect(&format!("{}: Failed converting API as JSON", search_term));
+    Ok(response.data)
 }

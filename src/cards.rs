@@ -31,9 +31,7 @@ impl fmt::Display for Card {
 }
 
 /// Generates a card based on a search term.
-/// If it's not possible to generate the card, returns `None` (or will, once
-/// I implement that. Right now, failing to get a response from the API or
-/// parsing JSON will simply panic)
+/// If it's not possible to generate the card, returns `None`
 pub fn generate_card(t: &Term) -> Option<Card> {
     match *t {
         Term::Search(ref s) => {
@@ -113,7 +111,11 @@ fn search(search_term: &str) -> Option<Card> {
 
 fn handle_error(search_term: &str, e: reqwest::Error) {
     if e.is_serialization() {
-        eprintln!("{}: Failed converting API as JSON {}", search_term, e.get_ref().unwrap());
+        eprintln!(
+            "{}: Failed converting API as JSON {}",
+            search_term,
+            e.get_ref().unwrap()
+        );
     } else {
         eprintln!("{}: Failed accessing JishoAPI", search_term);
     }
